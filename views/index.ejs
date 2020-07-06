@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+    </script>
+    <script>
+        window.extAsyncInit = function() {
+            MessengerExtensions.askPermission(
+                function(permission_response) {
+                    // Person grants or rejects the asked permission.
+                    let permissions = permission_response.permissions; // list of all permissions granted
+                    let isGranted = permission_response.isGranted;
+
+                    if (isGranted) {
+                        // User has granted user_profile permission
+                    }
+                    
+                    console.log("Permission response: ", permission_response);
+                },
+                function(errorCode, errorMessage) {
+                    console.log("Error code: ", errorCode);
+                    console.log("Error message: ", errorMessage);
+                },
+                "user_profile"
+            );
+            
+            MessengerExtensions.getContext(<%= app_id %>,
+                function success(thread_context) {
+                    console.log('Thread context: ', thread_context)
+                    document.getElementById('root').innerText = `Xin chào, ` + thread_context.psid;
+                },
+                function error(err) {
+                    console.log('Error: ', err);
+                }
+            );
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="root">Mặc định</div>
+</body>
+
+</html>

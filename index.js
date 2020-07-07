@@ -2,6 +2,7 @@ require('dotenv').config();
 const { MessengerClient } = require('messaging-api-messenger');
 const { dump } = require('dumper.js');
 const express = require('express');
+const fs = require('fs');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -14,7 +15,14 @@ app.set('port', process.env.PORT || 3000);
 app.set('page_token', process.env.PAGE_TOKEN || '');
 app.set('verify_token', process.env.VERIFY_TOKEN || '');
 app.set('page_id', process.env.PAGE_ID || 4);
-const client = new MessengerClient(app.get('page_token'));
+const client = new MessengerClient({
+    accessToken: app.get('page_token'),
+    appId: process.env.APP_ID,
+    appSecret: process.env.APP_SECRET,
+    version: '7.0',
+    skipAppSecretProof: true,
+});
+
 app.get('/', function (req, res) {
     res.render('index', { app_id: process.env.APP_ID });
 })
@@ -31,7 +39,7 @@ function processorHook(entry) {
     let { standby = [], messaging = [] } = entry;
     const message_events = standby.concat(messaging);
     message_events.forEach(function (event, i) {
-        console.log(`========= Event #${i + 1} =========`)
+        console.log(`========= Event #${i + 1} =========`);
         dump(event);
         let sender = event.sender.id;
         if (event.message && event.message.text) {
@@ -63,9 +71,29 @@ function processorHook(entry) {
                 client.sendGenericTemplate(sender, elements, { image_aspect_ratio: 'square' });
                 return;
             }
+            if (text === 'test') {
+
+                const menu = JSON.parse(fs.readFileSync('./menu.json'))
+                client.setMessengerProfile({
+                    get_started: {
+                        payload: 'GET_STARTED',
+                    },
+                    persistent_menu: menu,
+                    psid: sender
+                }).then(console.log);
+                // client.setPersistentMenu(menu).then(console.log);
+            }
             client.sendText(sender, `Echo: ${text.substring(0, 200)}`);
         }
         if (event.postback) {
+            switch (event.postback.payload) {
+                case "GET_STARTED2":
+
+                    break;
+
+                default:
+                    break;
+            }
             let text = JSON.stringify(event.postback);
             client.sendText(sender, `Echo: ${text.substring(0, 200)}`);
             return;

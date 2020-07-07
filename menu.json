@@ -1,24 +1,77 @@
 [
   {
     "locale": "default",
-    "composer_input_disabled": false,
     "call_to_actions": [
       {
+        "title": "Khỏi động lại",
         "type": "postback",
-        "title": "Dòng 1",
-        "payload": "CARE_HELP"
+        "payload": "RESTART"
       },
       {
-        "type": "postback",
-        "title": "Dòng 2",
-        "payload": "CURATION"
+        "title": "Trang web",
+        "type": "nested",
+        "call_to_actions": [
+          {
+            "title": "Explore",
+            "type": "nested",
+            "call_to_actions": [
+              {
+                "title": "Youtube 1",
+                "type": "web_url",
+                "url": "https://www.youtube.com/watch?v=v",
+                "webview_height_ratio": "tall"
+              },
+              {
+                "title": "Facebook 1",
+                "type": "web_url",
+                "url": "https://www.facebook.com/w",
+                "webview_height_ratio": "tall"
+              },
+              {
+                "title": "Trang chủ 1",
+                "type": "web_url",
+                "url": "https://protocol-facebook.herokuapp.com/",
+                "webview_height_ratio": "tall"
+              }
+            ]
+          },
+          {
+            "title": "W",
+            "type": "web_url",
+            "url": "https://www.facebook.com/w",
+            "webview_height_ratio": "tall"
+          },
+          {
+            "title": "Trang chủ",
+            "type": "web_url",
+            "url": "https://protocol-facebook.herokuapp.com/",
+            "webview_height_ratio": "tall"
+          }
+        ]
       },
       {
-        "type": "web_url",
-        "title": "Dòng 3.5",
-        "url": "https://protocol-facebook.herokuapp.com/",
-        "webview_height_ratio": "full",
-        "messenger_extensions": true
+        "title": "Trang web",
+        "type": "nested",
+        "call_to_actions": [
+          {
+            "title": "Youtube",
+            "type": "web_url",
+            "url": "https://www.youtube.com/watch?v=v",
+            "webview_height_ratio": "tall"
+          },
+          {
+            "title": "Facebook",
+            "type": "web_url",
+            "url": "https://www.facebook.com/w",
+            "webview_height_ratio": "tall"
+          },
+          {
+            "title": "Trang chủ",
+            "type": "web_url",
+            "url": "https://protocol-facebook.herokuapp.com/",
+            "webview_height_ratio": "tall"
+          }
+        ]
       }
     ]
   }

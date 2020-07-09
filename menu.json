@@ -3,7 +3,7 @@
     "locale": "default",
     "call_to_actions": [
       {
-        "title": "Khỏi động lại",
+        "title": "Khởi động lại",
         "type": "postback",
         "payload": "RESTART"
       },

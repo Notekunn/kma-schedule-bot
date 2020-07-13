@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { dump } = require('dumper.js');
-const Dish = require("../models/Dish");
 const { MessengerClient } = require('messaging-api-messenger');
 const client = new MessengerClient({
     accessToken: process.env.PAGE_TOKEN,
@@ -17,25 +16,7 @@ const client = new MessengerClient({
 // client.getWhitelistedDomains().then((domains) => {
 //     console.log(domains);
 // });
-function elementDish({ url, slug, name, image, description, ingredients, usage }) {
-    const shortDescription = description.slice(0, 80 - 3) + '...';
-    return {
-        title: `${name}`,
-        subtitle: `${shortDescription}`,
-        image_url: `${image}`,
-        buttons: [{
-            type: "postback",
-            title: "Show nguyên liệu",
-            payload: "Show nl",
-        }, {
-            type: "web_url",
-            title: "Xem chi tiết",
-            url: url || `${process.env.HOST_URL}/${slug}`,
-            webview_height_ratio: "tall",
-            messenger_extensions: true
-        }],
-    };
-}
+const cooking = require("./cooking");
 function processorHook(entry) {
     let { standby = [], messaging = [] } = entry;
     const message_events = standby.concat(messaging);
@@ -76,14 +57,8 @@ function processorHook(entry) {
                 client.sendReceiptTemplate(sender, require('./assets/recipient'));
                 return;
             }
-            if (text == 'a') {
-                const elements = [];
-                Dish.findRandom(5).then(function (dishes) {
-                    dishes.forEach(function (dish) {
-                        elements.push(elementDish(dish));
-                    });
-                    client.sendGenericTemplate(sender, elements, { image_aspect_ratio: 'square' });
-                });
+            if (text == 'cooking') {
+                cooking(client, sender);
             }
             client.sendText(sender, `Echo: ${text.substring(0, 200)}`);
         }

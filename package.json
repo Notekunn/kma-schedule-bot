@@ -17,6 +17,7 @@
     "express": "^4.13.4",
     "messaging-api-messenger": "^0.8.5",
     "mongoose": "^5.9.22",
+    "mongoose-simple-random": "^0.4.1",
     "request": "^2.71.0"
   }
 }

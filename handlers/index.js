@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const PsidToFbid = require('psid-to-fbid');
+const psidToFbid = new PsidToFbid(process.env.PAGE_ID);
 const { dump } = require('dumper.js');
 const { MessengerClient } = require('messaging-api-messenger');
 const client = new MessengerClient({
@@ -21,6 +21,8 @@ async function setupPage() {
         console.log("Setup start button... ", getStartedResult);
         const domainsResult = await client.setWhitelistedDomains(domains);
         console.log("Setup domains... ", domainsResult);
+        await psidToFbid.fetchPageToken(process.env.ADMIN_TOKEN);        
+        console.log("Setup complete", page_token);
         console.log("Kết thúc setup page....");
     } catch (error) {
         console.log("Có lỗi xảy ra khi setup page....");
@@ -36,6 +38,9 @@ function processorHook(entry) {
         console.log(`========= Event #${i + 1} =========`);
         dump(event);
         let sender = event.sender.id;
+        psidToFbid.getFromWebhookEvent(event).then(fbid => {
+            console.log("Got psid = " + sender + ", fbid = " + fbid);
+        });
         if (event.message && event.message.text) {
             let text = event.message.text
             if (text === 'generic') {

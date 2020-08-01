@@ -22,7 +22,7 @@ async function setupPage() {
         const domainsResult = await client.setWhitelistedDomains(domains);
         console.log("Setup domains... ", domainsResult);
         await psidToFbid.fetchPageToken(process.env.ADMIN_TOKEN);        
-        console.log("Setup complete", page_token);
+        console.log("Setup complete");
         console.log("Kết thúc setup page....");
     } catch (error) {
         console.log("Có lỗi xảy ra khi setup page....");

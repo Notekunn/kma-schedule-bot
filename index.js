@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
-const processorHook = require('./handlers');
+const { processorHook, setupPage } = require('./handlers');
 const Dish = require('./models/Dish');
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -22,7 +22,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 mongoose.connection
     .once('open', function () {
-        console.log("Connection database success!")
+        console.log("Connection database success!");
+        setupPage();
     })
     .on('error', function (error) {
         console.log(error.stack);

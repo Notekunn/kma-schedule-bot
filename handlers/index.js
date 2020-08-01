@@ -9,13 +9,25 @@ const client = new MessengerClient({
     version: '7.0',
     skipAppSecretProof: true,
 });
-// const menu = require("./assets/menu");
-// client.setPersistentMenu(menu).then(console.log);
-// const domains = require('./assets/domains');
-// client.setWhitelistedDomains(domains);
-// client.getWhitelistedDomains().then((domains) => {
-//     console.log(domains);
-// });
+
+async function setupPage() {
+    try {
+        console.log("Bắt đầu setup page....");
+        const menu = require("./assets/menu");
+        const domains = require('./assets/domains');
+        const menuResult = await client.setPersistentMenu(menu);
+        console.log("Setup menu... ", menuResult);
+        const getStartedResult = await client.setGetStarted('GET_STARTED');
+        console.log("Setup start button... ", getStartedResult);
+        const domainsResult = await client.setWhitelistedDomains(domains);
+        console.log("Setup domains... ", domainsResult);
+        console.log("Kết thúc setup page....");
+    } catch (error) {
+        console.log("Có lỗi xảy ra khi setup page....");
+        console.log(error.message);
+        console.log();
+    }
+}
 const cooking = require("./cooking");
 function processorHook(entry) {
     let { standby = [], messaging = [] } = entry;
@@ -79,4 +91,4 @@ function processorHook(entry) {
 
 }
 
-module.exports = processorHook;
+module.exports = { processorHook, setupPage };

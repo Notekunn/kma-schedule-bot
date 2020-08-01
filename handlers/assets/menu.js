@@ -12,7 +12,7 @@ module.exports = [
         type: "nested",
         call_to_actions: [
           {
-            title: "Explore",
+            title: "Khám phá",
             type: "nested",
             call_to_actions: [
               {
@@ -36,7 +36,7 @@ module.exports = [
             ]
           },
           {
-            title: "W",
+            title: "Trang khác",
             type: "web_url",
             url: "https://www.facebook.com/w",
             webview_height_ratio: "tall"

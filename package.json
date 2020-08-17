@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index"
+    "start": "node index",
+    "develop": "cross-env DEBUG=messaging-api-messenger node index"
   },
   "author": "",
   "license": "ISC",
@@ -20,5 +21,8 @@
     "mongoose-simple-random": "^0.4.1",
     "psid-to-fbid": "^1.2.0",
     "request": "^2.71.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   }
 }

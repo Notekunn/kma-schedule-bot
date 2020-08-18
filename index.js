@@ -2,7 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
-const { processorHook, setupPage } = require('./handlers');
+const Handler = require('./handlers/');
+const handler = new Handler();
 const Dish = require('./models/Dish');
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -23,7 +24,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 mongoose.connection
     .once('open', function () {
         console.log("Connection database success!");
-        setupPage();
+        handler.emit('setup_page');
     })
     .on('error', function (error) {
         console.log(error.stack);
@@ -39,7 +40,7 @@ app.get('/:slug', async function (req, res) {
     const { slug } = req.params;
     const dish = Dish.findOne({ slug });
     if (!dish) return res.send('Món ăn không hợp lệ');
-    res.redirect('')
+    // res.redirect('')
     res.render('index', { app_id: process.env.APP_ID, dish });
 })
 
@@ -56,10 +57,10 @@ app.post('/webhook/', function (req, res) {
     if (body.object === 'page') {
         body.entry.forEach(function (entry, i) {
             console.log(`=============== Entry #${i + 1} =============`);
-            processorHook(entry);
+            handler.emit('receive_hook', entry);
         });
 
-        res.status(200).send('EVENT_RECEIVED');
+        res.status(200).send('HOOK_RECEIVED');
 
     } else {
         res.sendStatus(404);

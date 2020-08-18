@@ -2,6 +2,7 @@ const PsidToFbid = require('psid-to-fbid');
 const psidToFbid = new PsidToFbid(process.env.PAGE_ID);
 const { dump } = require('dumper.js');
 const { MessengerClient } = require('messaging-api-messenger');
+psidToFbid.fetchPageToken(process.env.ADMIN_TOKEN);
 const client = new MessengerClient({
     accessToken: process.env.PAGE_TOKEN,
     appId: process.env.APP_ID,
@@ -9,34 +10,14 @@ const client = new MessengerClient({
     version: '7.0',
     skipAppSecretProof: true,
 });
-
-async function setupPage() {
-    try {
-        console.log("Bắt đầu setup page....");
-        const menu = require("./assets/menu");
-        const domains = require('./assets/domains');
-        const menuResult = await client.setPersistentMenu(menu);
-        console.log("Setup menu... ", menuResult);
-        const getStartedResult = await client.setGetStarted('GET_STARTED');
-        console.log("Setup start button... ", getStartedResult);
-        const domainsResult = await client.setWhitelistedDomains(domains);
-        console.log("Setup domains... ", domainsResult);
-        await psidToFbid.fetchPageToken(process.env.ADMIN_TOKEN);        
-        console.log("Setup complete");
-        console.log("Kết thúc setup page....");
-    } catch (error) {
-        console.log("Có lỗi xảy ra khi setup page....");
-        console.log(error.message);
-        console.log();
-    }
-}
-const cooking = require("./cooking");
+const setupPage = require('./setupPage')(client);
+// const cooking = require("./cooking");
 function processorHook(entry) {
     let { standby = [], messaging = [] } = entry;
     const message_events = standby.concat(messaging);
     message_events.forEach(function (event, i) {
         console.log(`========= Event #${i + 1} =========`);
-        dump(event);
+        // dump(event);
         let sender = event.sender.id;
         psidToFbid.getFromWebhookEvent(event).then(fbid => {
             console.log("Got psid = " + sender + ", fbid = " + fbid);
@@ -70,13 +51,13 @@ function processorHook(entry) {
                 client.sendGenericTemplate(sender, elements, { image_aspect_ratio: 'square' });
                 return;
             }
-            if (text == 'test') {
-                client.sendReceiptTemplate(sender, require('./assets/recipient'));
-                return;
-            }
-            if (text == 'cooking') {
-                cooking(client, sender);
-            }
+            // if (text == 'test') {
+            //     client.sendReceiptTemplate(sender, require('./assets/recipient'));
+            //     return;
+            // }
+            // if (text == 'cooking') {
+            //     cooking(client, sender);
+            // }
             client.sendText(sender, `Echo: ${text.substring(0, 200)}`);
         }
         if (event.postback) {

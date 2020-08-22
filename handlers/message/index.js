@@ -1,5 +1,5 @@
 module.exports = function (event) {
-    console.log("receive message");
+    console.log("<receive_message>");
     const { client, psid } = this;
     const text = event.message.text;
     const sender = event.sender.id;

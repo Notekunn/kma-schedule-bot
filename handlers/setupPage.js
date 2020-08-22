@@ -1,6 +1,7 @@
 module.exports = async function setupPage(event) {
+    console.log('<setup_page>');
     try {
-        const { client, psid } = this;
+        const { client, psidToFbid } = this;
         const menu = require("./assets/menu");
         const domains = require('./assets/domains');
         console.log("Bắt đầu setup page....");

@@ -1,4 +1,5 @@
 module.exports = function (event) {
+    console.log("<receive_postback>");
     const { client, psid } = this;
     const sender = event.sender.id;
     switch (event.postback.payload) {

@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     ps_id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     fb_id: {
         type: String
@@ -14,12 +15,8 @@ const UserSchema = new Schema({
     last_name: {
         type: String
     },
-    profile_pic: {
-        type: String
-    },
     prompt_id: {
-        type: Schema.Types.ObjectId,
-        required: true
+        type: Schema.Types.ObjectId
     }
 });
 const User = mongoose.model('user', UserSchema);

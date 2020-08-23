@@ -10,12 +10,13 @@ module.exports = function (event) {
             break;
         case "TEST":
             connect(client, psid, { student_code, student_pass });
+            return;
             break;
 
         default:
             break;
     }
     let text = JSON.stringify(event.postback);
-    client.sendText(sender, `Echo: ${text.substring(0, 200)}`);
+    client.sendText(psid, `Echo: ${text.substring(0, 200)}`);
     return;
 }

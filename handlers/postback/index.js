@@ -1,4 +1,5 @@
 const connect = require('../events/connect');
+const { student_code, student_pass } = require('../../.cache/config');
 module.exports = function (event) {
     console.log("<receive_postback>");
     const { client } = this;
@@ -8,7 +9,7 @@ module.exports = function (event) {
 
             break;
         case "TEST":
-            connect(client, psid, { student_code: "CT030208", student_pass: "1234" });
+            connect(client, psid, { student_code, student_pass });
             break;
 
         default:

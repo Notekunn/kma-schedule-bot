@@ -7,7 +7,7 @@ module.exports = function ({ url, slug, name, image, description, ingredients, u
         buttons: [{
             type: "postback",
             title: "Show nguyên liệu",
-            payload: "Show nl",
+            payload: "SHOW_INGREDIENTS",
         }, {
             type: "web_url",
             title: "Xem chi tiết",

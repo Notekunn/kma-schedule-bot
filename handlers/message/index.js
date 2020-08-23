@@ -1,4 +1,4 @@
-const Prompt = require('../../models/Prompt');
+const cooking = require('../events/cooking')
 module.exports = async function (event) {
     console.log("<receive_message>");
     const { client } = this;
@@ -35,9 +35,10 @@ module.exports = async function (event) {
     //     client.sendReceiptTemplate(sender, require('./assets/recipient'));
     //     return;
     // }
-    // if (text == 'cooking') {
-    //     cooking(client, sender);
-    // }
+    if (text == 'cooking') {
+        cooking(client, psid);
+        return;
+    }
     if (text == 'connect') {
         this.emit('prompt_create', psid, [
             { name: 'student_code', question: "Nhập tài khoản sinh viên(VD: CT030208)" },

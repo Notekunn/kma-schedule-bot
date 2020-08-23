@@ -20,11 +20,11 @@ mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
     useFindAndModify: false,
 });
-
+mongoose.set('debug', process.env.NODE_ENV == 'development');
 mongoose.connection
     .once('open', function () {
         console.log("Connection database success!");
-        handler.emit('setup_page');
+        // handler.emit('setup_page');
     })
     .on('error', function (error) {
         console.log(error.stack);

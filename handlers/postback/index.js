@@ -1,10 +1,14 @@
+const connect = require('../events/connect');
 module.exports = function (event) {
     console.log("<receive_postback>");
-    const { client, psid } = this;
-    const sender = event.sender.id;
+    const { client } = this;
+    const psid = event.sender.id;
     switch (event.postback.payload) {
         case "GET_STARTED":
 
+            break;
+        case "TEST":
+            connect(client, psid, { student_code: "CT030208", student_pass: "1234" });
             break;
 
         default:

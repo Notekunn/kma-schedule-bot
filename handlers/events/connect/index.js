@@ -1,4 +1,5 @@
 const utils = require('./utils');
+const Account = require('../../../models/Account');
 module.exports = async function (client, psid, { student_code, student_pass }) {
     client.sendText(psid, `Login with ${student_code} | ${student_pass}`);
     // const data = JSON.stringify({ studentCode: student_code, password: student_pass });
@@ -22,4 +23,8 @@ module.exports = async function (client, psid, { student_code, student_pass }) {
     }
     client.sendText(psid, 'Kết nối tài khoản thành công!');
     data.message && client.sendText(psid, data.message);
+    const account = await Account.findOne({ ps_id: psid, studentCode: student_code });
+    if (!account) return await Account.create({ ps_id: psid, studentCode: student_code, password: student_pass });
+    account.password = student_pass;
+    await account.save();
 }

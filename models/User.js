@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     last_name: {
         type: String
     },
-    prompt_id: {
+    currentQuestion: {
         type: Schema.Types.ObjectId
     }
 });

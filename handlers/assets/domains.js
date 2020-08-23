@@ -1,5 +1,9 @@
-module.exports = [
-    'https://3000-c5d48a10-3ffd-4635-b0e9-36c6e897295d.ws-us02.gitpod.io/',
-    'https://protocol-facebook.herokuapp.com/',
-    'https://monngonmoingay.com/'
-]
+const domains = [];
+// cooking list domain
+domains.push('https://monngonmoingay.com/');
+// my server 
+domains.push('https://protocol-facebook.herokuapp.com/');
+// your server
+const { HOST_URL } = process.env;
+if (HOST_URL && !domains.includes(HOST_URL)) domains.push(HOST_URL);
+module.exports = domains;

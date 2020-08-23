@@ -1,8 +1,9 @@
-module.exports = function (event) {
+const Prompt = require('../../models/Prompt');
+module.exports = async function (event) {
     console.log("<receive_message>");
-    const { client, psid } = this;
+    const { client } = this;
     const text = event.message.text;
-    const sender = event.sender.id;
+    const psid = event.sender.id;
     if (text === 'generic') {
         const elements = [{
             title: "First card",
@@ -27,7 +28,7 @@ module.exports = function (event) {
                 payload: "BUTTON @2",
             }],
         }];
-        client.sendGenericTemplate(sender, elements, { image_aspect_ratio: 'square' });
+        client.sendGenericTemplate(psid, elements, { image_aspect_ratio: 'square' });
         return;
     }
     // if (text == 'test') {
@@ -37,5 +38,20 @@ module.exports = function (event) {
     // if (text == 'cooking') {
     //     cooking(client, sender);
     // }
-    client.sendText(sender, `Echo: ${text.substring(0, 200)}`);
+    if (text == 'connect') {
+        // await Prompt.deleteMany({ ps_id: psid, name: 'student_code' });
+        // const prompt = new Prompt({ ps_id: psid, name: 'student_code' });
+        // await prompt.save();
+        // const password = await this.emit('prompt_create', psid, 'student_pass', 'Nhập mật khẩu');
+        // const code = await this.emit('prompt_create', psid, 'student_code', 'Nhập tài khoản sinh viên(VD: CT030208)', password._id);
+        // console.log(password);
+        // this.emit('prompt_fflush', psid);
+        this.emit('prompt_create', psid, [
+            { name: 'student_code', question: "Nhập tài khoản sinh viên(VD: CT030208)" },
+            { name: 'student_pass', question: "Nhập mật khẩu" }
+        ]);
+        // this.emit('prompt_ask', psid, code._id);
+        return;
+    }
+    client.sendText(psid, `Echo: ${text.substring(0, 200)}`);
 }

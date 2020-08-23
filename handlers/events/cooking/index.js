@@ -1,4 +1,4 @@
-const Dish = require("../../models/Dish");
+const Dish = require("../../../models/Dish");
 const elementDish = require("./element");
 module.exports = function (client, sender) {
     const elements = [];

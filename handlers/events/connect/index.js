@@ -16,7 +16,9 @@ module.exports = async function (client, psid, { student_code, student_pass }) {
                 {
                     type: 'postback',
                     title: 'Kết nối lại',
-                    payload: 'STUDENT_CONNECT',
+                    payload: JSON.stringify({
+                        action: "STUDENT_CONNECT"
+                    }),
                 },
             ]);
             return;

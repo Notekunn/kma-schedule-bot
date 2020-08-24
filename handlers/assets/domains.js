@@ -1,9 +1,10 @@
 const domains = [];
 // cooking list domain
-domains.push('https://monngonmoingay.com/');
+domains.push('https://monngonmoingay.com');
 // my server 
-domains.push('https://protocol-facebook.herokuapp.com/');
+domains.push('https://protocol-facebook.herokuapp.com');
 // your server
 const { HOST_URL } = process.env;
-if (HOST_URL && !domains.includes(HOST_URL)) domains.push(HOST_URL);
+const your_server = HOST_URL.trim('/');
+if (your_server && !domains.includes(your_server)) domains.push(your_server);
 module.exports = domains;

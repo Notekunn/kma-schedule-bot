@@ -5,6 +5,7 @@ const EventEmitter = require('events');
 const setupPage = require('./setupPage');
 const recieveMessage = require('./message');
 const recievePostback = require('./postback');
+const recieveQuickReply = require('./quick_reply');
 const saveUser = require('./saveUser');
 const { promptCreate, promptFflush, promptUpdate, promptAsk } = require('./prompt');
 const User = require('../models/User');
@@ -26,6 +27,7 @@ class Handler extends EventEmitter {
         this.on('receive_hook', this.recieveHook);
         this.on('receive_message', recieveMessage);
         this.on('receive_postback', recievePostback);
+        this.on('receive_quick_reply', recieveQuickReply);
         this.on('save_user', saveUser);
         this.on('prompt_create', promptCreate);
         this.on('prompt_update', promptUpdate);
@@ -51,6 +53,7 @@ class Handler extends EventEmitter {
                 _self.emit('prompt_update', psid, user.currentQuestion, event.message.text);
                 return;
             }
+            if (event.message && event.message.quick_reply) return _self.emit('receive_quick_reply', event);
             if (event.message && event.message.text) _self.emit('receive_message', event);
             if (event.postback) _self.emit('receive_postback', event);
             if (!_self.cache.savedUser[psid]) _self.emit('save_user', event);

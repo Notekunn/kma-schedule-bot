@@ -1,5 +1,5 @@
 const connect = require('../events/connect');
-const { selectSemester } = require('../events/save');
+const { selectSemester, save } = require('../events/save');
 const utils = require('./utils');
 const { student_code, student_pass } = require('../../.cache/config');
 module.exports = function (event) {
@@ -17,15 +17,16 @@ module.exports = function (event) {
         case "TEST":
             connect(client, psid, { student_code, student_pass });
             return;
-            break;
         case "TEST_SAVE":
             selectSemester(client, psid);
             return;
-            break;
+        case "SELECT_SEMESTER":
+            save(client, psid, payload.drpSemester);
+            return;
         default:
             break;
     }
-    let text = JSON.stringify(event.postback);
-    client.sendText(psid, `Echo: ${text.substring(0, 200)}`);
+    client.sendText(psid, `Title: ${event.postback.title}`);
+    client.sendText(psid, `Payload: ${JSON.stringify(payload)}`);
     return;
 }

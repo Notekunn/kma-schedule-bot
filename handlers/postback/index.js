@@ -1,5 +1,5 @@
 const connect = require('../events/connect');
-const save = require('../events/save');
+const { selectSemester } = require('../events/save');
 const utils = require('./utils');
 const { student_code, student_pass } = require('../../.cache/config');
 module.exports = function (event) {
@@ -12,14 +12,14 @@ module.exports = function (event) {
     const action = typeof payload == 'string' ? payload : payload.action;
     if (!action) return;
     switch (action.toUpperCase()) {
-        case "GET_STARTED":            
+        case "GET_STARTED":
             break;
         case "TEST":
             connect(client, psid, { student_code, student_pass });
             return;
             break;
         case "TEST_SAVE":
-            save(client, psid);
+            selectSemester(client, psid);
             return;
             break;
         default:

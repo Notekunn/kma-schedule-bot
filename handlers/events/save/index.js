@@ -1,7 +1,7 @@
 const Account = require('../../../models/Account');
 const utils = require('./utils');
 const item = require('./item');
-module.exports = async function (client, psid) {
+exports.selectSemester = async function (client, psid) {
     const account = await Account.findOne({ ps_id: psid });
     if (!account) return client.sendText(psid, 'Tài khoản chưa được kết nối!');
     try {

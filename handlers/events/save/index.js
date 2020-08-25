@@ -3,8 +3,8 @@ const utils = require('./utils');
 const item = require('./item');
 exports.selectSemester = async function (client, psid) {
     console.log('<select_semester>');
-    const account = await Account.findOne({ ps_id: psid });
     try {
+        const account = await Account.findOne({ ps_id: psid });
         if (!account) throw Error('Tài khoản chưa được kết nối!');
         const { data: { error, data } } = await utils.api.get('schedules/semesters', { params: { studentCode: account.studentCode } });
         if (error) throw Error(error.message);
@@ -17,8 +17,8 @@ exports.selectSemester = async function (client, psid) {
 }
 exports.save = async function (client, psid, drpSemester) {
     console.log('<save_schedule>', psid, drpSemester);
-    const account = await Account.findOne({ ps_id: psid });
     try {
+        const account = await Account.findOne({ ps_id: psid });
         if (!account) throw Error('Tài khoản chưa được kết nối!');
         if (!drpSemester) throw Error('Học kỳ không hợp lệ!');
         const { data } = await utils.api.post('/schedules/save', { studentCode: account.studentCode, drpSemester });

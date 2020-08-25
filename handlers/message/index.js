@@ -1,4 +1,5 @@
-const cooking = require('../events/cooking')
+const cooking = require('../events/cooking');
+const { selectSemester } = require('../events/save');
 module.exports = async function (event) {
     console.log("<receive_message>");
     const { client } = this;
@@ -45,6 +46,9 @@ module.exports = async function (event) {
             { name: 'student_pass', question: "Nhập mật khẩu" }
         ]);
         return;
+    }
+    if (text == 'save') {
+        selectSemester(client, psid);
     }
     client.sendText(psid, `Echo: ${text.substring(0, 200)}`);
 }

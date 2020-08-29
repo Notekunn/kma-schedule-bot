@@ -34,7 +34,9 @@ module.exports = function (event) {
         case "SEARCH_SCHEDULE_BY_DATE":
             if (payload.type == "THIS_DAY") search(client, psid, "day");
             else if (payload.type == "NEXT_DAY") search(client, psid, "day", getNextDay());
-            else client.sendText(psid, `Chưa được hỗ trợ`);
+            else this.emit('prompt_create', psid, [
+                { name: 'day_search', question: "Nhập ngày cần tra cứu(VD: 10/04/2000)" }
+            ]);
             return;
         case "SEARCH_SCHEDULE_BY_WEEK":
             if (payload.type == "THIS_WEEK") search(client, psid, "week");

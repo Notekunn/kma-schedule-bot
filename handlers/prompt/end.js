@@ -1,5 +1,6 @@
 const Prompt = require('../../models/Prompt');
 const connect = require('../events/connect');
+const { search } = require('../events/search');
 const promptAnswer = async function (names = []) {
     console.log('<prompt_answer>');
     const prompts = await Prompt.find({ name: { $in: names } }).sort({ updatedAt: -1 });
@@ -18,6 +19,9 @@ module.exports = async function (last_questions, psid) {
             const { student_code, student_pass } = await promptAnswer(['student_code', 'student_pass']);
             connect(client, psid, { student_code, student_pass });
             break;
+        case "day_search":
+            const { day_search } = await promptAnswer(['day_search']);
+            search(client, psid, "day", day_search);
         default:
             break;
     }

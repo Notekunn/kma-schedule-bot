@@ -36,7 +36,7 @@ exports.search = async function (client, psid, type, days) {
         else if (type = "week") days = utils.getDateInWeek(days);
         else throw Error("Phương thức tra cứu không hợp lệ!");
         const data = await utils.search(account.studentCode, days);
-        if (!data || data.length == 0) throw Error('Hôm nay không có lịch học!');
+        if (!data || data.length == 0) throw Error(`Ngày ${days} không có lịch học!`);
         const schedules = utils.groupBy('day')(data);
         for (day in schedules) {
             await client.sendText(psid, item(day, schedules[day]));
@@ -45,3 +45,4 @@ exports.search = async function (client, psid, type, days) {
         client.sendText(psid, error.message);
     }
 }
+exports.getNextDay = utils.getNextDay;

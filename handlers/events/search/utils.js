@@ -90,6 +90,9 @@ const search = async (studentCode, days) => {
     if (error) throw Error(error.message);
     return schedules;
 }
+const getNextDay = function (skip = 1) {
+    return moment.tz(TIME_ZONE).add(skip, 'days').format(TIME_FORMAT);
+}
 
 module.exports = {
     api,
@@ -100,5 +103,6 @@ module.exports = {
     getDate,
     getDateInWeek,
     search,
-    groupBy
+    groupBy,
+    getNextDay
 }

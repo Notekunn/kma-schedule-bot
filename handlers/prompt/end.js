@@ -22,6 +22,9 @@ module.exports = async function (last_questions, psid) {
         case "day_search":
             const { day_search } = await promptAnswer(['day_search']);
             search(client, psid, "day", day_search);
+        case "week_search":
+            const { week_search } = await promptAnswer(['week_search']);
+            search(client, psid, "week", week_search);
         default:
             break;
     }

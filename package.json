@@ -17,7 +17,7 @@
     "ejs": "^3.1.3",
     "express": "^4.13.4",
     "messaging-api-messenger": "^0.8.5",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "mongoose": "^5.9.27",
     "mongoose-simple-random": "^0.4.1",
     "psid-to-fbid": "^1.2.0",
